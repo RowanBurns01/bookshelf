@@ -6,7 +6,25 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
 
-type Lists = Awaited<ReturnType<typeof getUserLists>>
+interface Book {
+  id: string
+  title: string
+  coverImage: string | null
+}
+
+interface ListBook {
+  book: Book
+}
+
+interface List {
+  id: string
+  name: string
+  description: string | null
+  isPublic: boolean
+  books: ListBook[]
+}
+
+type Lists = List[]
 
 export default function ListsPage() {
   const { data: session } = useSession()
@@ -72,7 +90,7 @@ export default function ListsPage() {
             No lists found. Create your first list!
           </div>
         ) : (
-          lists.map((list) => (
+          lists.map((list: List) => (
             <Link
               key={list.id}
               href={`/lists/${list.id}`}
