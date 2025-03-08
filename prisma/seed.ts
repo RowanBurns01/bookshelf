@@ -19,7 +19,8 @@ async function main() {
         title: 'The Great Gatsby',
         author: 'F. Scott Fitzgerald',
         isbn: '9780743273565',
-        coverImage: 'https://books.google.com/books/content?id=iXn5U2IzVH0C&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api',
+        coverImage:
+          'https://books.google.com/books/content?id=iXn5U2IzVH0C&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api',
         description: 'A story of decadence and excess.',
         pageCount: 180,
         publishDate: new Date('1925-04-10'),
@@ -32,7 +33,8 @@ async function main() {
         title: '1984',
         author: 'George Orwell',
         isbn: '9780451524935',
-        coverImage: 'https://books.google.com/books/content?id=kotPYEqx7kMC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api',
+        coverImage:
+          'https://books.google.com/books/content?id=kotPYEqx7kMC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api',
         description: 'A dystopian social science fiction novel.',
         pageCount: 328,
         publishDate: new Date('1949-06-08'),
@@ -92,4 +94,4 @@ async function main() {
   }
 }
 
-main().catch(console.error) 
+main().catch(console.error)

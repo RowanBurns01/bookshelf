@@ -76,10 +76,7 @@ export default function MyBooksPage() {
         {loading ? (
           // Loading skeletons
           [...Array(6)].map((_, i) => (
-            <div
-              key={i}
-              className="flex gap-4 p-4 border border-gray-200 rounded-lg"
-            >
+            <div key={i} className="flex gap-4 p-4 border border-gray-200 rounded-lg">
               <div className="w-24 aspect-[2/3] bg-gray-200 rounded animate-pulse" />
               <div className="flex-1">
                 <div className="h-4 bg-gray-200 rounded w-3/4 mb-2 animate-pulse" />
@@ -100,12 +97,7 @@ export default function MyBooksPage() {
             >
               <div className="w-24 aspect-[2/3] relative overflow-hidden rounded">
                 {book.coverImage ? (
-                  <Image
-                    src={book.coverImage}
-                    alt={book.title}
-                    fill
-                    className="object-cover"
-                  />
+                  <Image src={book.coverImage} alt={book.title} fill className="object-cover" />
                 ) : (
                   <div className="w-full h-full bg-gray-200 flex items-center justify-center">
                     📚
@@ -115,9 +107,7 @@ export default function MyBooksPage() {
               <div className="flex-1">
                 <h3 className="font-medium">{book.title}</h3>
                 <p className="text-sm text-gray-600 mb-2">{book.author}</p>
-                <p className="text-sm text-gray-500 line-clamp-3">
-                  {book.description}
-                </p>
+                <p className="text-sm text-gray-500 line-clamp-3">{book.description}</p>
               </div>
             </div>
           ))
@@ -125,4 +115,4 @@ export default function MyBooksPage() {
       </div>
     </div>
   )
-} 
+}

@@ -62,7 +62,7 @@ export function BookStatusButton({ bookId }: BookStatusButtonProps) {
         className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors"
         onClick={() => setIsOpen(!isOpen)}
       >
-        {status ? statusOptions.find(opt => opt.value === status)?.label : 'Want to Read'}
+        {status ? statusOptions.find((opt) => opt.value === status)?.label : 'Want to Read'}
       </button>
 
       {isOpen && (
@@ -84,4 +84,4 @@ export function BookStatusButton({ bookId }: BookStatusButtonProps) {
       )}
     </div>
   )
-} 
+}

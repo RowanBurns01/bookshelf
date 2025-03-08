@@ -26,7 +26,10 @@ export async function getNewReleases() {
   return response.json()
 }
 
-export async function getUserBooks(userId: string, status?: 'reading' | 'completed' | 'want-to-read') {
+export async function getUserBooks(
+  userId: string,
+  status?: 'reading' | 'completed' | 'want-to-read'
+) {
   const response = await fetch(`/api/users/${userId}/books${status ? `?status=${status}` : ''}`)
   if (!response.ok) {
     throw new Error('Failed to fetch user books')
@@ -56,4 +59,4 @@ export async function getRecentActivity(userId: string) {
     throw new Error('Failed to fetch recent activity')
   }
   return response.json()
-} 
+}

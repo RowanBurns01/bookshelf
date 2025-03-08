@@ -58,10 +58,7 @@ export default function ListsPage() {
         {loading ? (
           // Loading skeletons
           [...Array(6)].map((_, i) => (
-            <div
-              key={i}
-              className="p-6 border border-gray-200 rounded-lg"
-            >
+            <div key={i} className="p-6 border border-gray-200 rounded-lg">
               <div className="flex justify-between items-start mb-4">
                 <div>
                   <div className="h-6 bg-gray-200 rounded w-48 mb-2 animate-pulse" />
@@ -69,7 +66,7 @@ export default function ListsPage() {
                 </div>
                 <div className="h-6 w-6 bg-gray-200 rounded-full animate-pulse" />
               </div>
-              
+
               <div className="mb-4">
                 <div className="h-4 bg-gray-200 rounded w-full mb-2 animate-pulse" />
                 <div className="h-4 bg-gray-200 rounded w-3/4 animate-pulse" />
@@ -77,10 +74,7 @@ export default function ListsPage() {
 
               <div className="flex gap-2">
                 {[...Array(4)].map((_, j) => (
-                  <div
-                    key={j}
-                    className="w-16 aspect-[2/3] bg-gray-200 rounded animate-pulse"
-                  />
+                  <div key={j} className="w-16 aspect-[2/3] bg-gray-200 rounded animate-pulse" />
                 ))}
               </div>
             </div>
@@ -99,34 +93,20 @@ export default function ListsPage() {
               <div className="flex justify-between items-start mb-4">
                 <div>
                   <h3 className="text-lg font-medium mb-1">{list.name}</h3>
-                  <p className="text-sm text-gray-500">
-                    {list.books.length} books
-                  </p>
+                  <p className="text-sm text-gray-500">{list.books.length} books</p>
                 </div>
-                {!list.isPublic && (
-                  <span className="text-sm text-gray-500">🔒 Private</span>
-                )}
+                {!list.isPublic && <span className="text-sm text-gray-500">🔒 Private</span>}
               </div>
-              
+
               {list.description && (
-                <p className="text-sm text-gray-600 mb-4 line-clamp-2">
-                  {list.description}
-                </p>
+                <p className="text-sm text-gray-600 mb-4 line-clamp-2">{list.description}</p>
               )}
 
               <div className="flex gap-2">
                 {list.books.slice(0, 4).map(({ book }) => (
-                  <div
-                    key={book.id}
-                    className="w-16 aspect-[2/3] relative overflow-hidden rounded"
-                  >
+                  <div key={book.id} className="w-16 aspect-[2/3] relative overflow-hidden rounded">
                     {book.coverImage ? (
-                      <Image
-                        src={book.coverImage}
-                        alt={book.title}
-                        fill
-                        className="object-cover"
-                      />
+                      <Image src={book.coverImage} alt={book.title} fill className="object-cover" />
                     ) : (
                       <div className="w-full h-full bg-gray-200 flex items-center justify-center">
                         📚
@@ -141,4 +121,4 @@ export default function ListsPage() {
       </div>
     </div>
   )
-} 
+}

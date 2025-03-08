@@ -6,8 +6,8 @@ async function main() {
   try {
     const user = await prisma.user.findFirst({
       where: {
-        email: 'test@example.com'
-      }
+        email: 'test@example.com',
+      },
     })
     console.log('User ID:', user?.id)
   } catch (error) {
@@ -17,4 +17,4 @@ async function main() {
   }
 }
 
-main().catch(console.error) 
+main().catch(console.error)

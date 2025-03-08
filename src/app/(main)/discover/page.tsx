@@ -82,11 +82,7 @@ export default function DiscoverPage() {
         <h2 className="text-2xl font-semibold mb-4">Featured Books</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
           {featured.map((book) => (
-            <Link
-              key={book.id}
-              href={`/books/${book.id}`}
-              className="flex flex-col gap-2 group"
-            >
+            <Link key={book.id} href={`/books/${book.id}`} className="flex flex-col gap-2 group">
               <div className="aspect-[2/3] relative overflow-hidden rounded-lg">
                 {book.coverImage ? (
                   <Image
@@ -101,9 +97,7 @@ export default function DiscoverPage() {
                   </div>
                 )}
               </div>
-              <h3 className="font-medium line-clamp-1 group-hover:text-blue-600">
-                {book.title}
-              </h3>
+              <h3 className="font-medium line-clamp-1 group-hover:text-blue-600">{book.title}</h3>
               <p className="text-sm text-gray-600 line-clamp-1">{book.author}</p>
             </Link>
           ))}
@@ -115,11 +109,7 @@ export default function DiscoverPage() {
         <h2 className="text-2xl font-semibold mb-4">Popular This Week</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
           {popular.map((book) => (
-            <Link
-              key={book.id}
-              href={`/books/${book.id}`}
-              className="flex flex-col gap-2 group"
-            >
+            <Link key={book.id} href={`/books/${book.id}`} className="flex flex-col gap-2 group">
               <div className="aspect-[2/3] relative overflow-hidden rounded-lg">
                 {book.coverImage ? (
                   <Image
@@ -134,9 +124,7 @@ export default function DiscoverPage() {
                   </div>
                 )}
               </div>
-              <h3 className="font-medium line-clamp-1 group-hover:text-blue-600">
-                {book.title}
-              </h3>
+              <h3 className="font-medium line-clamp-1 group-hover:text-blue-600">{book.title}</h3>
               <p className="text-sm text-gray-600 line-clamp-1">{book.author}</p>
             </Link>
           ))}
@@ -148,11 +136,7 @@ export default function DiscoverPage() {
         <h2 className="text-2xl font-semibold mb-4">New Releases</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
           {newReleases.map((book) => (
-            <Link
-              key={book.id}
-              href={`/books/${book.id}`}
-              className="flex flex-col gap-2 group"
-            >
+            <Link key={book.id} href={`/books/${book.id}`} className="flex flex-col gap-2 group">
               <div className="aspect-[2/3] relative overflow-hidden rounded-lg">
                 {book.coverImage ? (
                   <Image
@@ -167,9 +151,7 @@ export default function DiscoverPage() {
                   </div>
                 )}
               </div>
-              <h3 className="font-medium line-clamp-1 group-hover:text-blue-600">
-                {book.title}
-              </h3>
+              <h3 className="font-medium line-clamp-1 group-hover:text-blue-600">{book.title}</h3>
               <p className="text-sm text-gray-600 line-clamp-1">{book.author}</p>
             </Link>
           ))}
@@ -177,4 +159,4 @@ export default function DiscoverPage() {
       </section>
     </div>
   )
-} 
+}

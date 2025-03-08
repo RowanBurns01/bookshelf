@@ -64,9 +64,7 @@ export default function ProfilePage() {
                 className="object-cover"
               />
             ) : (
-              <div className="h-full w-full bg-gray-200 flex items-center justify-center">
-                👤
-              </div>
+              <div className="h-full w-full bg-gray-200 flex items-center justify-center">👤</div>
             )}
           </div>
           <div>
@@ -96,15 +94,10 @@ export default function ProfilePage() {
         <h2 className="text-2xl font-semibold mb-4">Reading Activity</h2>
         <div className="space-y-4">
           {activity.length === 0 ? (
-            <p className="text-gray-500 text-center py-8">
-              No recent activity to show.
-            </p>
+            <p className="text-gray-500 text-center py-8">No recent activity to show.</p>
           ) : (
             activity.map((review: Review) => (
-              <div
-                key={review.id}
-                className="flex gap-4 p-4 bg-white rounded-lg shadow"
-              >
+              <div key={review.id} className="flex gap-4 p-4 bg-white rounded-lg shadow">
                 <div className="w-16 aspect-[2/3] relative overflow-hidden rounded">
                   {review.book.coverImage ? (
                     <Image
@@ -121,9 +114,7 @@ export default function ProfilePage() {
                 </div>
                 <div className="flex-1">
                   <h3 className="font-medium">{review.book.title}</h3>
-                  <p className="text-sm text-gray-600 mb-2">
-                    {review.book.author}
-                  </p>
+                  <p className="text-sm text-gray-600 mb-2">{review.book.author}</p>
                   <p className="text-sm text-gray-500">
                     {review.content || `Rated ${review.rating} stars`}
                   </p>
@@ -148,7 +139,7 @@ export default function ProfilePage() {
               Coming soon
             </div>
           </div>
-          
+
           {/* Genre Distribution */}
           <div className="p-4 bg-white rounded-lg shadow">
             <h3 className="text-lg font-medium mb-4">Genre Distribution</h3>
@@ -186,10 +177,7 @@ function ProfileSkeleton() {
 
       <div className="space-y-4">
         {[...Array(3)].map((_, i) => (
-          <div
-            key={i}
-            className="flex gap-4 p-4 bg-white rounded-lg shadow"
-          >
+          <div key={i} className="flex gap-4 p-4 bg-white rounded-lg shadow">
             <div className="w-16 aspect-[2/3] bg-gray-200 rounded" />
             <div className="flex-1">
               <div className="h-4 bg-gray-200 rounded w-3/4 mb-2" />
@@ -201,4 +189,4 @@ function ProfileSkeleton() {
       </div>
     </div>
   )
-} 
+}

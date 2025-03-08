@@ -69,7 +69,7 @@ export default async function BookPage({ params }: { params: { bookId: string } 
         <div className="md:col-span-2">
           <h1 className="text-3xl font-bold mb-2">{book.title}</h1>
           <h2 className="text-xl text-gray-600 mb-4">by {book.author}</h2>
-          
+
           <div className="flex items-center gap-4 mb-6">
             <BookStatusButton bookId={book.id} />
             {book.averageRating && (
@@ -101,7 +101,9 @@ export default async function BookPage({ params }: { params: { bookId: string } 
 
           <div className="mb-8">
             <h3 className="text-lg font-semibold mb-2">Description</h3>
-            <p className="text-gray-600 whitespace-pre-line">{book.description || 'No description available.'}</p>
+            <p className="text-gray-600 whitespace-pre-line">
+              {book.description || 'No description available.'}
+            </p>
           </div>
 
           {/* Reviews Section */}
@@ -148,4 +150,4 @@ export default async function BookPage({ params }: { params: { bookId: string } 
       </div>
     </div>
   )
-} 
+}
