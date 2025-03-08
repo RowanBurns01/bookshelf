@@ -1,19 +1,11 @@
 import { PrismaAdapter } from "@auth/prisma-adapter"
 import { PrismaClient } from "@prisma/client"
 import NextAuth from "next-auth"
-import type { DefaultSession, AuthOptions, Session } from "next-auth"
+import type { NextAuthConfig } from "next-auth"
 import type { JWT } from "next-auth/jwt"
-import type { AdapterUser } from "@auth/core/adapters"
+import type { User, Account, Profile } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 import { compare } from "bcryptjs"
-
-declare module "next-auth" {
-  interface Session extends DefaultSession {
-    user: {
-      id: string
-    } & DefaultSession["user"]
-  }
-}
 
 const prisma = new PrismaClient()
 
@@ -26,8 +18,7 @@ type DBUser = {
   hashedPassword: string | null
 }
 
-export const config: AuthOptions = {
-  adapter: PrismaAdapter(prisma),
+export const authConfig = {
   providers: [
     CredentialsProvider({
       name: "credentials",
@@ -37,30 +28,26 @@ export const config: AuthOptions = {
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
-          throw new Error("Please enter both email and password")
+          return null
         }
 
         const user = await prisma.user.findUnique({
           where: {
-            email: credentials.email
+            email: credentials.email as string
           }
         }) as DBUser | null
 
-        if (!user) {
-          throw new Error("No user found with this email")
-        }
-
-        if (!user.hashedPassword) {
-          throw new Error("Please sign in with the method you used to create your account")
+        if (!user?.hashedPassword) {
+          return null
         }
 
         const isPasswordValid = await compare(
-          credentials.password,
+          credentials.password as string,
           user.hashedPassword
         )
 
         if (!isPasswordValid) {
-          throw new Error("Invalid password")
+          return null
         }
 
         return {
@@ -72,30 +59,28 @@ export const config: AuthOptions = {
       }
     })
   ],
-  session: {
-    strategy: "jwt" as const,
-    maxAge: 30 * 24 * 60 * 60, // 30 days
-  },
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user }: { token: JWT; user: User | null }) {
       if (user) {
         token.id = user.id
       }
       return token
     },
-    async session({ session, token }): Promise<Session> {
+    async session({ session, token }: { session: any; token: JWT }) {
       if (session.user) {
-        session.user.id = token.id as string
+        session.user.id = token.id
       }
       return session
     }
   },
   pages: {
     signIn: "/login",
-    error: "/login", // Redirect to login page on error
+    error: "/login",
   },
-}
+} satisfies NextAuthConfig
 
-const handler = NextAuth(config)
-
-export { handler as GET, handler as POST } 
+export const { auth, handlers: { GET, POST } } = NextAuth({
+  adapter: PrismaAdapter(prisma),
+  session: { strategy: "jwt" },
+  ...authConfig,
+}) 
