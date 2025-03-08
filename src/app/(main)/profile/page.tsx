@@ -5,8 +5,23 @@ import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import { useState, useEffect } from 'react'
 
+interface Book {
+  id: string
+  title: string
+  author: string
+  coverImage: string | null
+}
+
+interface Review {
+  id: string
+  book: Book
+  rating: number
+  content: string | null
+  createdAt: string
+}
+
 type Profile = Awaited<ReturnType<typeof getUserProfile>>
-type Activity = Awaited<ReturnType<typeof getRecentActivity>>
+type Activity = Review[]
 
 export default function ProfilePage() {
   const { data: session } = useSession()
@@ -85,7 +100,7 @@ export default function ProfilePage() {
               No recent activity to show.
             </p>
           ) : (
-            activity.map((review) => (
+            activity.map((review: Review) => (
               <div
                 key={review.id}
                 className="flex gap-4 p-4 bg-white rounded-lg shadow"
