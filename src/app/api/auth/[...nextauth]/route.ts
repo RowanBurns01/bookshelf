@@ -1,12 +1,23 @@
 import { PrismaAdapter } from "@auth/prisma-adapter"
 import { PrismaClient } from "@prisma/client"
-import NextAuth, { AuthOptions } from "next-auth"
+import NextAuth from "next-auth"
+import type { DefaultSession, AuthOptions, Session } from "next-auth"
+import type { JWT } from "next-auth/jwt"
+import type { AdapterUser } from "@auth/core/adapters"
 import CredentialsProvider from "next-auth/providers/credentials"
 import { compare } from "bcryptjs"
 
+declare module "next-auth" {
+  interface Session extends DefaultSession {
+    user: {
+      id: string
+    } & DefaultSession["user"]
+  }
+}
+
 const prisma = new PrismaClient()
 
-type User = {
+type DBUser = {
   id: string
   name: string | null
   email: string | null
@@ -15,7 +26,7 @@ type User = {
   hashedPassword: string | null
 }
 
-const authOptions: AuthOptions = {
+export const config: AuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
     CredentialsProvider({
@@ -33,7 +44,7 @@ const authOptions: AuthOptions = {
           where: {
             email: credentials.email
           }
-        }) as User | null
+        }) as DBUser | null
 
         if (!user) {
           throw new Error("No user found with this email")
@@ -62,7 +73,7 @@ const authOptions: AuthOptions = {
     })
   ],
   session: {
-    strategy: "jwt",
+    strategy: "jwt" as const,
     maxAge: 30 * 24 * 60 * 60, // 30 days
   },
   callbacks: {
@@ -72,7 +83,7 @@ const authOptions: AuthOptions = {
       }
       return token
     },
-    async session({ session, token }) {
+    async session({ session, token }): Promise<Session> {
       if (session.user) {
         session.user.id = token.id as string
       }
@@ -85,6 +96,6 @@ const authOptions: AuthOptions = {
   },
 }
 
-const handler = NextAuth(authOptions)
+const handler = NextAuth(config)
 
 export { handler as GET, handler as POST } 
