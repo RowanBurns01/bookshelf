@@ -50,16 +50,22 @@ export default function ProfilePage() {
     return <ProfileSkeleton />
   }
 
+  const userData = profile.user || {
+    name: 'User',
+    email: '',
+    image: null
+  }
+
   return (
     <div className="max-w-7xl mx-auto">
       {/* Profile Header */}
       <div className="mb-8">
         <div className="flex items-center gap-6">
           <div className="h-24 w-24 relative rounded-full overflow-hidden">
-            {profile.user?.image ? (
+            {userData.image ? (
               <Image
-                src={profile.user.image}
-                alt={profile.user.name || ''}
+                src={userData.image}
+                alt={userData.name || ''}
                 fill
                 className="object-cover"
               />
@@ -68,19 +74,18 @@ export default function ProfilePage() {
             )}
           </div>
           <div>
-            <h1 className="text-3xl font-bold">{profile.user?.name}</h1>
-            <p className="text-gray-600">{profile.user?.email}</p>
+            <h1 className="text-3xl font-bold">{userData.name}</h1>
+            {userData.email && <p className="text-gray-600">{userData.email}</p>}
           </div>
         </div>
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
         {[
           { label: 'Books Read', value: profile.stats.booksCount },
           { label: 'Reading Now', value: '0' },
           { label: 'Want to Read', value: '0' },
-          { label: 'Lists Created', value: profile.stats.listsCount },
         ].map((stat, i) => (
           <div key={i} className="p-4 bg-white rounded-lg shadow">
             <div className="text-sm text-gray-500">{stat.label}</div>
@@ -166,8 +171,8 @@ function ProfileSkeleton() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-        {[...Array(4)].map((_, i) => (
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+        {[...Array(3)].map((_, i) => (
           <div key={i} className="p-4 bg-white rounded-lg shadow">
             <div className="text-sm text-gray-500">Loading...</div>
             <div className="h-8 bg-gray-200 rounded w-12 mt-1" />

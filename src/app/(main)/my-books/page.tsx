@@ -4,22 +4,39 @@ import { getUserBooks } from '@/lib/api'
 import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import { useState, useEffect } from 'react'
+import Link from 'next/link'
 
-type Book = Awaited<ReturnType<typeof getUserBooks>>[0]
+type UserBook = {
+  bookId: string
+  status: string
+  book: {
+    id: string
+    title: string
+    author: string
+    coverImage: string | null
+    description?: string
+  }
+}
 
 export default function MyBooksPage() {
   const { data: session } = useSession()
   const [activeTab, setActiveTab] = useState<'reading' | 'completed' | 'want-to-read'>('reading')
-  const [books, setBooks] = useState<Book[]>([])
+  const [books, setBooks] = useState<UserBook[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     async function loadBooks() {
       if (session?.user?.id) {
         setLoading(true)
-        const userBooks = await getUserBooks(session.user.id, activeTab)
-        setBooks(userBooks)
-        setLoading(false)
+        try {
+          const userBooks = await getUserBooks(session.user.id, activeTab)
+          setBooks(userBooks)
+        } catch (error) {
+          console.error('Error loading books:', error)
+          setBooks([])
+        } finally {
+          setLoading(false)
+        }
       }
     }
 
@@ -30,9 +47,12 @@ export default function MyBooksPage() {
     <div className="max-w-7xl mx-auto">
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold">My Books</h1>
-        <button className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">
-          Add Book
-        </button>
+        <Link
+          href="/discover"
+          className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+        >
+          Add Books
+        </Link>
       </div>
 
       {/* Reading Status Tabs */}
@@ -86,28 +106,48 @@ export default function MyBooksPage() {
             </div>
           ))
         ) : books.length === 0 ? (
-          <div className="col-span-full text-center py-12 text-gray-500">
-            No books found in this category.
+          <div className="col-span-full text-center py-12">
+            <p className="text-gray-500 mb-4">
+              {activeTab === 'reading' && "You currently have no books in Currently Reading"}
+              {activeTab === 'completed' && "You currently have no books in Completed"}
+              {activeTab === 'want-to-read' && "You currently have no books in Want to Read"}
+            </p>
+            <Link
+              href="/discover"
+              className="inline-flex items-center px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+            >
+              <span className="mr-2">📚</span>
+              Discover Books to Add
+            </Link>
           </div>
         ) : (
-          books.map((book) => (
+          books.map((userBook) => (
             <div
-              key={book.id}
+              key={userBook.bookId}
               className="flex gap-4 p-4 border border-gray-200 rounded-lg hover:shadow-lg transition-shadow"
             >
-              <div className="w-24 aspect-[2/3] relative overflow-hidden rounded">
-                {book.coverImage ? (
-                  <Image src={book.coverImage} alt={book.title} fill className="object-cover" />
-                ) : (
-                  <div className="w-full h-full bg-gray-200 flex items-center justify-center">
-                    📚
-                  </div>
-                )}
-              </div>
+              <Link href={`/books/${userBook.book.id}`} className="w-24 shrink-0">
+                <div className="aspect-[2/3] relative overflow-hidden rounded">
+                  {userBook.book.coverImage ? (
+                    <Image
+                      src={userBook.book.coverImage}
+                      alt={userBook.book.title}
+                      fill
+                      className="object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+                      📚
+                    </div>
+                  )}
+                </div>
+              </Link>
               <div className="flex-1">
-                <h3 className="font-medium">{book.title}</h3>
-                <p className="text-sm text-gray-600 mb-2">{book.author}</p>
-                <p className="text-sm text-gray-500 line-clamp-3">{book.description}</p>
+                <Link href={`/books/${userBook.book.id}`} className="hover:text-blue-600">
+                  <h3 className="font-medium">{userBook.book.title}</h3>
+                </Link>
+                <p className="text-sm text-gray-600 mb-2">{userBook.book.author}</p>
+                <p className="text-sm text-gray-500 line-clamp-3">{userBook.book.description}</p>
               </div>
             </div>
           ))

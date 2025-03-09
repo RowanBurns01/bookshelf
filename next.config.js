@@ -8,7 +8,17 @@ const nextConfig = {
         pathname: '/books/content/**',
       },
       {
+        protocol: 'http',
+        hostname: 'books.google.com',
+        pathname: '/books/content/**',
+      },
+      {
         protocol: 'https',
+        hostname: 'books.google.com',
+        pathname: '/googlebooks/images/**',
+      },
+      {
+        protocol: 'http',
         hostname: 'books.google.com',
         pathname: '/googlebooks/images/**',
       },
@@ -22,6 +32,11 @@ const nextConfig = {
         hostname: 'ui-avatars.com',
         pathname: '/api/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'storage.googleapis.com',
+        pathname: '/du-prd/books/images/**',
+      },
     ],
   },
   experimental: {
@@ -33,4 +48,4 @@ const nextConfig = {
   },
 }
 
-module.exports = nextConfig
+export default nextConfig

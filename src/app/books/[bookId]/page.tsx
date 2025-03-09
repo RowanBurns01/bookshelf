@@ -1,8 +1,10 @@
+'use client'
+
 import { PrismaClient } from '@prisma/client'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
-import { BookStatusButton } from '@/components/BookStatusButton'
 import { formatDate } from '@/lib/utils'
+import { useState } from 'react'
 
 const prisma = new PrismaClient()
 
@@ -20,6 +22,43 @@ function getAvatarUrl(name: string | null, image: string | null) {
   if (image) return image
   const encodedName = encodeURIComponent(name || 'Anonymous')
   return `https://ui-avatars.com/api/?name=${encodedName}&background=random`
+}
+
+function ReadingStatusButtons() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+
+  return (
+    <div className="relative">
+      <button
+        onClick={() => setIsMenuOpen(!isMenuOpen)}
+        className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+      >
+        Add to List
+      </button>
+      {isMenuOpen && (
+        <div className="absolute top-full left-0 right-0 mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg z-10">
+          <button
+            onClick={() => setIsMenuOpen(false)}
+            className="w-full px-4 py-2 text-left text-sm hover:bg-gray-100 dark:hover:bg-gray-700 rounded-t-lg"
+          >
+            Currently Reading
+          </button>
+          <button
+            onClick={() => setIsMenuOpen(false)}
+            className="w-full px-4 py-2 text-left text-sm hover:bg-gray-100 dark:hover:bg-gray-700"
+          >
+            Completed
+          </button>
+          <button
+            onClick={() => setIsMenuOpen(false)}
+            className="w-full px-4 py-2 text-left text-sm hover:bg-gray-100 dark:hover:bg-gray-700 rounded-b-lg"
+          >
+            Want to Read
+          </button>
+        </div>
+      )}
+    </div>
+  )
 }
 
 async function getBook(bookId: string) {
@@ -71,7 +110,7 @@ export default async function BookPage({ params }: { params: { bookId: string } 
           <h2 className="text-xl text-gray-600 mb-4">by {book.author}</h2>
 
           <div className="flex items-center gap-4 mb-6">
-            <BookStatusButton bookId={book.id} />
+            <ReadingStatusButtons />
             {book.averageRating && (
               <div className="flex items-center">
                 <span className="text-yellow-400">★</span>

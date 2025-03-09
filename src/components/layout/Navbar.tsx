@@ -22,12 +22,6 @@ export function Navbar() {
               >
                 My Books
               </Link>
-              <Link
-                href="/lists"
-                className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-900 dark:text-gray-100"
-              >
-                Lists
-              </Link>
             </div>
           </div>
           <div className="hidden sm:ml-6 sm:flex sm:items-center">
